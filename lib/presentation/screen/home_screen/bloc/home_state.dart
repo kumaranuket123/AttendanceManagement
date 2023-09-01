@@ -15,3 +15,5 @@ class HomeLoadedSuccessState extends HomeState {}
 class HomeNavigateToLoginPage extends HomeActionState {}
 
 class HomeNavigateToUserProfile extends HomeActionState {}
+
+class HomeNavigateToAddTaskScreen extends HomeActionState {}

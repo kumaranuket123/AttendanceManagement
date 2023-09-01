@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: StreamBuilder(
+        initialData: const CircularProgressIndicator(),
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, user) {
           if (user.hasData) {

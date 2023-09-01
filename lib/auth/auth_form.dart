@@ -20,6 +20,7 @@ class _AuthFormState extends State<AuthForm> {
   String _userName = "";
   bool isLoginPage = true;
   String error = "";
+  bool isClicked = false;
   //------------------------------------------
 
   startAuthentication() async {
@@ -34,10 +35,12 @@ class _AuthFormState extends State<AuthForm> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text("Please Check Email or Password"),
-            backgroundColor: Theme.of(context).primaryColorLight,
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
             elevation: 10,
           ),
         );
+        isClicked = false;
+        setState(() {});
       }
     }
   }
@@ -65,6 +68,9 @@ class _AuthFormState extends State<AuthForm> {
       error = err.toString();
       debugPrint("$err");
     }
+    setState(() {
+      isClicked = false;
+    });
   }
 
   @override
@@ -144,14 +150,25 @@ class _AuthFormState extends State<AuthForm> {
               ),
             ),
             const SizedBox(height: 10),
+            Text(
+              error,
+              style: TextStyle(color: Colors.red),
+            ),
             ElevatedButton(
-                onPressed: () {
-                  startAuthentication();
-                },
-                child: Text(
-                  isLoginPage ? login : signUp,
-                  style: GoogleFonts.roboto(),
-                )),
+              onPressed: () {
+                error = "";
+                isClicked = true;
+                startAuthentication();
+              },
+              child: isClicked
+                  ? const CircularProgressIndicator(
+                      // valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                  : Text(
+                      isLoginPage ? login : signUp,
+                      style: GoogleFonts.roboto(),
+                    ),
+            ),
             const SizedBox(height: 10),
             TextButton(
                 onPressed: () {

@@ -11,7 +11,7 @@ const labelTextEmailField = "Enter Email";
 
 //passwordField
 const valueKeyPassword = "Password";
-const errorTextPassword = "Invalid Password";
+const errorTextPassword = "Password length should be greater than 5.";
 const labelTextPasswordField = "Enter Password";
 
 //username field

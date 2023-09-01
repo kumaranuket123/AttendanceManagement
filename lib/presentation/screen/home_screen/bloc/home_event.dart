@@ -6,3 +6,5 @@ abstract class HomeEvent {}
 class HomeLogOutClickedEvent extends HomeEvent {}
 
 class HomeUserProfileClickedEvent extends HomeEvent {}
+
+class HomeFloatingAddClickedEvent extends HomeEvent {}

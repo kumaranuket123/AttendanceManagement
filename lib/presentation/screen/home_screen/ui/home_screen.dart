@@ -1,8 +1,13 @@
 import 'package:attendence_management/auth/auth_screen.dart';
+import 'package:attendence_management/presentation/screen/add_task/add_task_screen.dart';
 import 'package:attendence_management/presentation/screen/home_screen/bloc/home_bloc.dart';
+import 'package:attendence_management/presentation/screen/user_profile_screen/user_profile_screen.dart';
 import 'package:attendence_management/presentation/widgets/company_logo_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../constant/assets.dart';
 import '../../../../constant/constants.dart';
@@ -17,6 +22,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeBloc homeBloc = HomeBloc();
+  String? uid;
+
+  @override
+  void initState() {
+    getUID();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  getUID() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    setState(() {
+      uid = user!.uid;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
               context, MaterialPageRoute(builder: (context) => const MyApp()));
         }
         if (state is HomeNavigateToUserProfile) {
-          // Navigator.push(context,
-              // MaterialPageRoute(builder: (context) => const MLScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const UserProfileScreen()));
+        }
+        if (state is HomeNavigateToAddTaskScreen) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddTaskScreen()));
         }
       },
       builder: (context, state) {
@@ -49,7 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     homeBloc.add(HomeUserProfileClickedEvent());
                   },
-                  icon: const CircleAvatar())
+                  icon: CircleAvatar(
+                    child: Image.asset(
+                      userIcon,
+                    ),
+                  ))
             ],
           ),
           drawer: Drawer(
@@ -69,7 +100,59 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          body: Container(),
+          body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("tasks")
+                .doc(uid)
+                .collection("myTask")
+                .snapshots(),
+            builder: (context, snapshots) {
+              if (snapshots.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                final doc = snapshots.data!.docs;
+                return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      // childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 10,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: doc.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                        child: Card(
+                          margin: const EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Text(
+                                doc[index]['title'],
+                                textScaleFactor: 1.5,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  doc[index]['description'],
+                                  softWrap: true,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              }
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              homeBloc.add(HomeFloatingAddClickedEvent());
+            },
+            child: const Icon(Icons.add),
+          ),
         );
       },
     );
