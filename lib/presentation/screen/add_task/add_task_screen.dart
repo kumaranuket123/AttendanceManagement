@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:toast/toast.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -62,6 +61,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               maxLines: 8,
               minLines: 1,
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
                 onPressed: () {
                   FocusScope.of(context).unfocus();

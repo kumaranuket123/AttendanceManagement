@@ -2,12 +2,10 @@ import 'package:attendence_management/auth/auth_screen.dart';
 import 'package:attendence_management/presentation/screen/add_task/add_task_screen.dart';
 import 'package:attendence_management/presentation/screen/home_screen/bloc/home_bloc.dart';
 import 'package:attendence_management/presentation/screen/user_profile_screen/user_profile_screen.dart';
-import 'package:attendence_management/presentation/widgets/company_logo_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../constant/assets.dart';
 import '../../../../constant/constants.dart';
@@ -85,20 +83,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           drawer: Drawer(
             child: ListView(
-              children: const [
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DrawerHeader(
-                          child: CompanyLogoWidget(),
-                          decoration: BoxDecoration(color: Colors.orange)),
-                      EndDrawerButton(),
-                    ],
-                  ),
-                )
+              children:  const [
+                DrawerHeader(
+                    // decoration: BoxDecoration(color: Colors.orange),
+                    child: Column(
+                      children: [
+                        DrawerHearderLogo(),
+                      ],
+                    ),),
               ],
             ),
+          ),
+          floatingActionButton: FloatingActionButton(onPressed: () { homeBloc.add(HomeFloatingAddClickedEvent()); },child: Icon(Icons.add),
+
           ),
           body: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -147,14 +144,39 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              homeBloc.add(HomeFloatingAddClickedEvent());
-            },
-            child: const Icon(Icons.add),
-          ),
+
         );
       },
+    );
+  }
+}
+
+class DrawerHearderLogo extends StatelessWidget {
+  const DrawerHearderLogo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const EndDrawerButton(),
+        SizedBox(width: 10,),
+        Image.asset(
+          appLogo,
+          height: 40,
+        ),
+        SizedBox(width: 10,),
+        Expanded(
+          child: Text(
+            appName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

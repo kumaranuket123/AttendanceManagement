@@ -9,6 +9,35 @@
       "client_info": {
         "mobilesdk_app_id": "1:291437230622:android:3f03e327f4884a80ac0c0f",
         "android_client_info": {
+          "package_name": "com.crn.attendence_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291437230622-bi22h3ufk7nibmgefge9vti81sd6bf3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw9ileH3oUlrkbbOV7awX3DaDAI7W2yBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291437230622-bi22h3ufk7nibmgefge9vti81sd6bf3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291437230622:android:a6a9403dd216af40ac0c0f",
+        "android_client_info": {
           "package_name": "com.example.attendence_management"
         }
       },

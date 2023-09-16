@@ -21,9 +21,11 @@ class _AuthFormState extends State<AuthForm> {
   bool isLoginPage = true;
   String error = "";
   bool isClicked = false;
+
   //------------------------------------------
 
   startAuthentication() async {
+    error = "";
     if (_formKey.currentState != null) {
       final validity = _formKey.currentState!.validate();
       FocusScope.of(context).unfocus();
@@ -32,6 +34,9 @@ class _AuthFormState extends State<AuthForm> {
         submitForm(_email, _password, _userName);
       } else {
         debugPrint("form state is null");
+        setState(() {
+          isClicked = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text("Please Check Email or Password"),
@@ -39,8 +44,6 @@ class _AuthFormState extends State<AuthForm> {
             elevation: 10,
           ),
         );
-        isClicked = false;
-        setState(() {});
       }
     }
   }
@@ -161,9 +164,7 @@ class _AuthFormState extends State<AuthForm> {
                 startAuthentication();
               },
               child: isClicked
-                  ? const CircularProgressIndicator(
-                      // valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
+                  ? const CircularProgressIndicator.adaptive()
                   : Text(
                       isLoginPage ? login : signUp,
                       style: GoogleFonts.roboto(),

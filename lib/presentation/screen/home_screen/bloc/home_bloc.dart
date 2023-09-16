@@ -29,8 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeNavigateToUserProfile());
   }
 
-  FutureOr<void> homeFloatingAddClickedEvent(
-      HomeFloatingAddClickedEvent event, Emitter<HomeState> emit) {
+  FutureOr<void> homeFloatingAddClickedEvent(HomeFloatingAddClickedEvent event, Emitter<HomeState> emit) {
     emit(HomeNavigateToAddTaskScreen());
   }
 }

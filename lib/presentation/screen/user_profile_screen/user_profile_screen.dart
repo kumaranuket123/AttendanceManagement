@@ -33,12 +33,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Profile"),
+        title: const Text("User Profile"),
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: Center(
         child: uid.isEmpty
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('users')
@@ -51,19 +51,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     );
                   } else {
                     final doc = snapshots.data!.data();
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Image.asset(userIcon),
-                        ),
-                        Text(doc?['username']),
-                        Text("Email: ${doc?['email']}"),
-                        ElevatedButton(onPressed: () {}, child: Text("update"))
-                      ],
+                    return Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Image.asset(userIcon),
+                          ),
+                          Text(doc?['username']),
+                          Text("Email: ${doc?['email']}"),
+                          ElevatedButton(
+                              onPressed: () {}, child: const Text("update"))
+                        ],
+                      ),
                     );
                   }
                 }),
